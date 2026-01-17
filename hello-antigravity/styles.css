@@ -1,0 +1,108 @@
+:root {
+    --bg-dark: #020617;
+    --bg-light: #1e293b;
+    --accent: #38bdf8;
+    --glass-surface: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Atmospheric Glow */
+.background-glow {
+    position: absolute;
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(2, 6, 23, 0) 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.container {
+    perspective: 1000px;
+    z-index: 1;
+}
+
+.glass-card {
+    background: var(--glass-surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    padding: 5rem 7rem;
+    border-radius: 32px;
+    text-align: center;
+    box-shadow: 
+        0 4px 30px rgba(0, 0, 0, 0.2),
+        inset 0 0 20px rgba(255, 255, 255, 0.02);
+    
+    animation: float 6s ease-in-out infinite;
+    transform-style: preserve-3d;
+}
+
+h1 {
+    font-size: 5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.05em;
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.1));
+}
+
+p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px) rotateX(0deg);
+        box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
+    }
+    50% {
+        transform: translateY(-25px) rotateX(2deg);
+        box-shadow: 0 25px 30px -5px rgba(0,0,0,0.4);
+    }
+    100% {
+        transform: translateY(0px) rotateX(0deg);
+        box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
+    }
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .glass-card {
+        padding: 3rem 2rem;
+        margin: 1rem;
+    }
+    
+    h1 {
+        font-size: 3rem;
+    }
+}
