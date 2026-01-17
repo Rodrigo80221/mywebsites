@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Presentes | Casamento Premium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Outfit:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="ambient-glow"></div>
+
+    <header>
+        <div class="glass-header">
+            <h1>Lista de Presentes</h1>
+            <p>Celebre nosso amor com um gesto especial</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="gift-grid">
+            <!-- Gift 1: 100,00 -->
+            <div class="gift-card">
+                <div class="image-wrapper">
+                    <img src="images/dinner.png" alt="Jantar Especial">
+                </div>
+                <div class="content">
+                    <h2>Presente 1</h2>
+                    <p>Jantar Romântico</p>
+                    <button class="price-btn" onclick="selectGift(100)">
+                        <span class="currency">R$</span>
+                        <span class="value">100,00</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Gift 2: 150,00 -->
+            <div class="gift-card">
+                <div class="image-wrapper">
+                    <img src="images/crystal.png" alt="Taças de Cristal">
+                </div>
+                <div class="content">
+                    <h2>Presente 2</h2>
+                    <p>Brinde de Celebração</p>
+                    <button class="price-btn" onclick="selectGift(150)">
+                        <span class="currency">R$</span>
+                        <span class="value">150,00</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Gift 3: 200,00 -->
+            <div class="gift-card">
+                <div class="image-wrapper">
+                    <img src="images/bedding.png" alt="Enxoval Luxo">
+                </div>
+                <div class="content">
+                    <h2>Presente 3</h2>
+                    <p>Conforto e Sonhos</p>
+                    <button class="price-btn" onclick="selectGift(200)">
+                        <span class="currency">R$</span>
+                        <span class="value">200,00</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Gift 4: 300,00 -->
+            <div class="gift-card">
+                <div class="image-wrapper">
+                    <img src="images/appliance.png" alt="Cozinha Moderna">
+                </div>
+                <div class="content">
+                    <h2>Presente 4</h2>
+                    <p>Cozinha Gourmet</p>
+                    <button class="price-btn" onclick="selectGift(300)">
+                        <span class="currency">R$</span>
+                        <span class="value">300,00</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Gift 5: 400,00 -->
+            <div class="gift-card">
+                <div class="image-wrapper">
+                    <img src="images/travel.png" alt="Lua de Mel">
+                </div>
+                <div class="content">
+                    <h2>Presente 5</h2>
+                    <p>Cota Lua de Mel</p>
+                    <button class="price-btn" onclick="selectGift(400)">
+                        <span class="currency">R$</span>
+                        <span class="value">400,00</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function selectGift(value) {
+            alert(`Você escolheu presentear com R$ ${value},00. Obrigado!`);
+        }
+    </script>
+</body>
+
+</html>
