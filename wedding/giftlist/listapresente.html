@@ -4,11 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Presentes | Casamento Premium</title>
+    <title>Lista de Presentes | Casamento Rodrigo e Renata</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Outfit:wght@300;400;500&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -102,9 +101,97 @@
         </div>
     </main>
 
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal-overlay">
+        <div class="modal-content glass-card">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <h2 class="modal-title">Complete seu Presente</h2>
+            <p class="modal-amount">Valor: <span id="modalAmount">R$ 0,00</span></p>
+
+            <div class="payment-options">
+                <!-- Pix Option -->
+                <div class="payment-method">
+                    <h3>Pagamento via Pix</h3>
+                    <p class="method-desc">Aprovação imediata</p>
+                    <div class="pix-container">
+                        <p class="pix-instruction">Copie o código abaixo e cole no app do seu banco:</p>
+                        <div class="pix-code-box">
+                            <code
+                                id="pixCode">00020126580014br.gov.bcb.pix0136123e4567-e89b-12d3-a456-4266141740005204000053039865802BR5913CASAMENTO6008BRASILIA62070503***6304</code>
+                        </div>
+                        <button class="action-btn copy-btn" onclick="copyPix()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            Copiar Código Pix
+                        </button>
+                    </div>
+                </div>
+
+                <div class="divider">ou</div>
+
+                <!-- Card Option -->
+                <div class="payment-method">
+                    <h3>Cartão de Crédito</h3>
+                    <p class="method-desc">Até 12x no cartão</p>
+                    <button class="action-btn card-btn" onclick="payWithCard()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                        </svg>
+                        Pagar com Cartão
+                    </button>
+                    <p class="security-note">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        Ambiente seguro Mercado Pago
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        const modal = document.getElementById('paymentModal');
+        const amountSpan = document.getElementById('modalAmount');
+
         function selectGift(value) {
-            alert(`Você escolheu presentear com R$ ${value},00. Obrigado!`);
+            const formattedValue = value.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+            amountSpan.textContent = `R$ ${formattedValue}`;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close on click outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        function copyPix() {
+            const code = document.getElementById('pixCode').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = 'Copiado!';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                }, 2000);
+            });
+        }
+
+        function payWithCard() {
+            window.open('https://mpago.la/2vzKB3C', '_blank');
         }
     </script>
 </body>
