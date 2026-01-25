@@ -160,11 +160,11 @@
             <!-- Gift 10: 500,00 -->
             <div class="gift-card">
                 <div class="image-wrapper">
-                    <img src="images/curso_de_culinaria_basica_para_a_noiva_2.png"
-                        alt="Curso de culinária básica para a noiva">
+                    <img src="images/travesseiro_anti_ronco_para_o_noivo_a_paz_da_noiva_nao_tem_preco.png"
+                        alt="Travesseiro anti-ronco para o noivo (A paz da noiva não tem preço)">
                 </div>
                 <div class="content">
-                    <p>Curso de culinária básica para a noiva</p>
+                    <p>Travesseiro anti-ronco para o noivo (A paz da noiva não tem preço)</p>
                     <button class="price-btn" onclick="selectGift(500)">
                         <span class="currency">R$</span>
                         <span class="value">500,00</span>
@@ -232,11 +232,10 @@
             <!-- Gift 15: 900,00 -->
             <div class="gift-card">
                 <div class="image-wrapper">
-                    <img src="images/travesseiro_anti_ronco_para_o_noivo_a_paz_da_noiva_nao_tem_preco.png"
-                        alt="Travesseiro anti-ronco para o noivo (A paz da noiva não tem preço)">
+                    <img src="images/surprise_question_mark.png" alt="Surpresa">
                 </div>
                 <div class="content">
-                    <p>Travesseiro anti-ronco para o noivo (A paz da noiva não tem preço)</p>
+                    <p>Surpresa</p>
                     <button class="price-btn" onclick="selectGift(900)">
                         <span class="currency">R$</span>
                         <span class="value">900,00</span>
@@ -293,10 +292,10 @@
             <div class="gift-card">
                 <div class="image-wrapper">
                     <img src="images/poder_ir_junto_com_os_noivos_para_a_lua_de_mel_menos_as_sogras.png"
-                        alt="Poder ir junto com os noivos para a lua de mel (menos as sogras)">
+                        alt="Poder ir junto com os noivos para a lua de mel">
                 </div>
                 <div class="content">
-                    <p>Poder ir junto com os noivos para a lua de mel (menos as sogras)</p>
+                    <p>Poder ir junto com os noivos para a lua de mel</p>
                     <button class="price-btn" onclick="selectGift(15000)">
                         <span class="currency">R$</span>
                         <span class="value">15.000,00</span>
@@ -365,8 +364,30 @@
     <script>
         const modal = document.getElementById('paymentModal');
         const amountSpan = document.getElementById('modalAmount');
+        let currentGiftValue = 0;
+
+        const paymentLinks = {
+            50: 'https://mpago.la/2vzKB3C',
+            100: 'https://mpago.la/1zRVJRD',
+            150: 'https://mpago.la/1dLPXME',
+            250: 'https://mpago.la/2eZVNW9',
+            300: 'https://mpago.la/15YB4FV',
+            350: 'https://mpago.la/2mZaPUT',
+            400: 'https://mpago.la/11PstjJ',
+            450: 'https://mpago.la/2LS5ns3',
+            500: 'https://mpago.la/2uZAGCm',
+            550: 'https://mpago.la/1wN32vz',
+            600: 'https://mpago.la/2P3LRdd',
+            700: 'https://mpago.la/2bZobgb',
+            800: 'https://mpago.la/2NwcvE3',
+            1000: 'https://mpago.la/1LDA19C',
+            2000: 'https://mpago.la/2tXruMJ',
+            3000: 'https://mpago.la/2G6ktrd',
+            15000: 'https://mpago.la/2W4X6Bk'
+        };
 
         function selectGift(value) {
+            currentGiftValue = value;
             const formattedValue = value.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
             amountSpan.textContent = `R$ ${formattedValue}`;
             modal.classList.add('active');
@@ -396,7 +417,12 @@
         }
 
         function payWithCard() {
-            window.open('https://mpago.la/2vzKB3C', '_blank');
+            const link = paymentLinks[currentGiftValue];
+            if (link) {
+                window.open(link, '_blank');
+            } else {
+                alert('Link de pagamento indísponível para este valor no momento.');
+            }
         }
     </script>
 </body>
