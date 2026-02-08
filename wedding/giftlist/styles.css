@@ -431,6 +431,12 @@ h2 {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
+@media (max-width: 480px) {
+    .prank-image {
+        max-width: 100%;
+    }
+}
+
 .prank-text {
     font-size: 1.1rem;
     color: var(--text-primary);
