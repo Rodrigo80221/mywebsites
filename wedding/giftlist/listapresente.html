@@ -264,6 +264,17 @@
         </div>
     </main>
 
+    <!-- Prank Modal -->
+    <div id="prankModal" class="modal-overlay">
+        <div class="modal-content glass-card prank-content">
+            <button class="close-modal" onclick="closePrankModal()">&times;</button>
+            <h2 class="prank-title">Quase! 😅</h2>
+            <img src="images/joke.webp" alt="Pegadinha" class="prank-image">
+            <p class="prank-text">Por alguns segundos você achou que ia viajar com a gente…</p>
+            <p class="prank-text">Mas a lua de mel continua sendo só para dois 😉</p>
+        </div>
+    </div>
+
     <!-- Payment Modal -->
     <div id="paymentModal" class="modal-overlay">
         <div class="modal-content glass-card">
@@ -322,6 +333,7 @@
 
     <script>
         const modal = document.getElementById('paymentModal');
+        const prankModal = document.getElementById('prankModal');
         const amountSpan = document.getElementById('modalAmount');
         let currentGiftValue = 0;
 
@@ -329,25 +341,61 @@
             50: 'https://mpago.la/2vzKB3C',
             100: 'https://mpago.la/1zRVJRD',
             150: 'https://mpago.la/1dLPXME',
-            200: null,
+            200: 'https://mpago.la/2JGLZbz',
             250: 'https://mpago.la/2eZVNW9',
             300: 'https://mpago.la/15YB4FV',
             350: 'https://mpago.la/2mZaPUT',
             400: 'https://mpago.la/11PstjJ',
             450: 'https://mpago.la/2LS5ns3',
             500: 'https://mpago.la/2uZAGCm',
-            750: null,
+            750: 'https://mpago.la/24qfCbr',
             1000: 'https://mpago.la/1LDA19C',
-            1500: null,
+            1500: 'https://mpago.la/13rkuS2',
             2000: 'https://mpago.la/2tXruMJ',
             3000: 'https://mpago.la/2G6ktrd',
             15000: 'https://mpago.la/2W4X6Bk'
         };
 
+        const pixCodes = {
+            50: '00020126550014br.gov.bcb.pix0133rodrigoerenatacasamento@gmail.com520400005303986540550.005802BR5915Rodrigo da Rosa6009Sao Paulo62220518daqr9914728886296363044152',
+            100: '00020126550014br.gov.bcb.pix0133rodrigoerenatacasamento@gmail.com5204000053039865406100.005802BR5915Rodrigo da Rosa6009Sao Paulo62220518daqr991472880282246304B055',
+            150: '00020126550014br.gov.bcb.pix0133rodrigoerenatacasamento@gmail.com5204000053039865406150.005802BR5915Rodrigo da Rosa6009Sao Paulo62220518daqr991472880796006304F728',
+            200: '00020126550014br.gov.bcb.pix0133rodrigoerenatacasamento@gmail.com5204000053039865406200.005802BR5915Rodrigo da Rosa6009Sao Paulo62220518daqr9914728825059663045CFE',
+            250: '00020126550014br.gov.bcb.pix0133rodrigoerenatacasamento@gmail.com5204000053039865406250.005802BR5915Rodrigo da Rosa6009Sao Paulo62220518daqr991472883479816304DB7D',
+            300: '00020126550014br.gov.bcb.pix0133rodrigoerenatacasamento@gmail.com5204000053039865406300.005802BR5915Rodrigo da Rosa6009Sao Paulo62220518daqr9914728838895063041653',
+            350: '00020126550014br.gov.bcb.pix0133rodrigoerenatacasamento@gmail.com5204000053039865406350.005802BR5915Rodrigo da Rosa6009Sao Paulo62220518daqr99147288435157630418ED',
+            400: '00020126550014br.gov.bcb.pix0133rodrigoerenatacasamento@gmail.com5204000053039865406400.005802BR5915Rodrigo da Rosa6009Sao Paulo62220518daqr991472884681936304F824',
+            450: '00020126550014br.gov.bcb.pix0133rodrigoerenatacasamento@gmail.com5204000053039865406450.005802BR5915Rodrigo da Rosa6009Sao Paulo62220518daqr9914728850267463041644',
+            500: '00020126550014br.gov.bcb.pix0133rodrigoerenatacasamento@gmail.com5204000053039865406500.005802BR5915Rodrigo da Rosa6009Sao Paulo62220518daqr9914728854205063046C26',
+            750: '00020126550014br.gov.bcb.pix0133rodrigoerenatacasamento@gmail.com5204000053039865406750.005802BR5915Rodrigo da Rosa6009Sao Paulo62220518daqr9914728859714263048532',
+            1000: '00020126550014br.gov.bcb.pix0133rodrigoerenatacasamento@gmail.com52040000530398654071000.005802BR5915Rodrigo da Rosa6009Sao Paulo62220518daqr99147288630746630451AF',
+            1500: '00020126550014br.gov.bcb.pix0133rodrigoerenatacasamento@gmail.com52040000530398654071500.005802BR5915Rodrigo da Rosa6009Sao Paulo62220518daqr991472886827916304F67A',
+            2000: '00020126550014br.gov.bcb.pix0133rodrigoerenatacasamento@gmail.com52040000530398654072000.005802BR5915Rodrigo da Rosa6009Sao Paulo62220518daqr991472887206236304C67D',
+            3000: '00020126550014br.gov.bcb.pix0133rodrigoerenatacasamento@gmail.com52040000530398654073000.005802BR5915Rodrigo da Rosa6009Sao Paulo62220518daqr9914728878272463048AC8',
+            15000: null // User did not provide yet
+        };
+
         function selectGift(value) {
             currentGiftValue = value;
+
+            // Prank check for 15000
+            if (value === 15000) {
+                prankModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                return;
+            }
+
             const formattedValue = value.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
             amountSpan.textContent = `R$ ${formattedValue}`;
+
+            // Set Pix Code
+            const pixCodeElement = document.getElementById('pixCode');
+            if (pixCodes[value]) {
+                pixCodeElement.innerText = pixCodes[value];
+            } else {
+                pixCodeElement.innerText = "Chave Pix: rodrigoerenatacasamento@gmail.com";
+            }
+
             modal.classList.add('active');
             document.body.style.overflow = 'hidden'; // Prevent scrolling
         }
@@ -357,9 +405,18 @@
             document.body.style.overflow = '';
         }
 
+        function closePrankModal() {
+            prankModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
         // Close on click outside
         modal.addEventListener('click', (e) => {
             if (e.target === modal) closeModal();
+        });
+
+        prankModal.addEventListener('click', (e) => {
+            if (e.target === prankModal) closePrankModal();
         });
 
         function copyPix() {
