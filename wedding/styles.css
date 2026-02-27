@@ -1,0 +1,450 @@
+:root {
+    /* New Palette */
+    --bg-page: #fdf6ec;
+    --accent-color: #c48b6f;
+    /* Terracotta */
+    --accent-glow: rgba(196, 139, 111, 0.3);
+    --text-primary: #374957;
+    --text-secondary: #6b7280;
+
+    /* Glassmorphism Light Mode Variables */
+    --glass-card: rgba(255, 255, 255, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --glass-shadow: 0 8px 32px 0 rgba(196, 139, 111, 0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Restored Ambient Glow (Warm) */
+.ambient-glow {
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(196, 139, 111, 0.1) 0%, transparent 70%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+header {
+    text-align: center;
+    padding: 4rem 1rem;
+    position: relative;
+}
+
+.glass-header {
+    display: inline-block;
+    padding: 2rem 4rem;
+    background: var(--glass-card);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 100px;
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+}
+
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: var(--text-primary);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+header p {
+    font-size: 1rem;
+    color: var(--accent-color);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.gift-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+}
+
+/* Restored Floating Glass Cards */
+.gift-card {
+    background: var(--glass-card);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    /* Restored rounded corners */
+    overflow: hidden;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--glass-shadow);
+}
+
+.gift-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(196, 139, 111, 0.2),
+        0 0 20px var(--accent-glow);
+    border-color: var(--accent-color);
+}
+
+.image-wrapper {
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.gift-card:hover .image-wrapper img {
+    transform: scale(1.1);
+}
+
+.content {
+    padding: 1.5rem;
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.content p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+/* Restored Button Style (Outline -> Solid) */
+.price-btn {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    padding: 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.price-btn:hover {
+    background: var(--accent-color);
+    color: #fff;
+    box-shadow: 0 0 15px var(--accent-glow);
+}
+
+.currency {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.value {
+    font-weight: 700;
+}
+
+/* Modal Styles - Glassmorphism Light */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(55, 73, 87, 0.4);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: #fff;
+    /* Solid background for readability */
+    width: 90%;
+    max-width: 500px;
+    padding: 2.5rem;
+    border-radius: 24px;
+    border: 1px solid var(--glass-border);
+    position: relative;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0);
+}
+
+.close-modal {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.close-modal:hover {
+    color: var(--accent-color);
+}
+
+.modal-title {
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.modal-amount {
+    text-align: center;
+    font-size: 1.6rem;
+    color: var(--accent-color);
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+.payment-method {
+    background: var(--bg-page);
+    padding: 1.5rem;
+    border-radius: 16px;
+    border: 1px solid rgba(196, 139, 111, 0.2);
+    margin-bottom: 1rem;
+}
+
+.payment-method h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.method-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.pix-container {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px dashed var(--accent-color);
+}
+
+.pix-instruction {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.pix-code-box {
+    background: #f3f4f6;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    word-break: break-all;
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    max-height: 60px;
+    overflow-y: auto;
+}
+
+.action-btn {
+    width: 100%;
+    padding: 0.9rem;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+}
+
+.copy-btn {
+    background: var(--text-primary);
+    color: #fff;
+}
+
+.copy-btn:hover {
+    background: #2c3b46;
+}
+
+.card-btn {
+    background: #009ee3;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.card-btn:hover {
+    background: #0087c2;
+    box-shadow: 0 4px 12px rgba(0, 158, 227, 0.3);
+}
+
+.divider {
+    text-align: center;
+    margin: 1rem 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    position: relative;
+    opacity: 0.6;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background: #e5e7eb;
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
+}
+
+.security-note {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem;
+        /* Reduced to fit on one line */
+    }
+
+    header p {
+        font-size: 0.8rem;
+        /* Reduced subheading size */
+    }
+
+    header {
+        padding-bottom: 0.5rem;
+    }
+
+    .container {
+        padding-top: 2rem;
+    }
+
+    .glass-header {
+        padding: 1.5rem 1rem;
+        width: 100%;
+        border-radius: 20px;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 1.5rem;
+    }
+}
+
+/* Prank Modal Styles */
+.prank-content {
+    text-align: center;
+    max-width: 450px;
+    background: #fff;
+    /* Clean white background */
+}
+
+.prank-title {
+    font-size: 2rem;
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+
+.prank-image {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 480px) {
+    .prank-image {
+        max-width: 100%;
+    }
+}
+
+.prank-text {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.prank-text:last-of-type {
+    margin-bottom: 0;
+    font-weight: 500;
+}
