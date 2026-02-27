@@ -82,7 +82,7 @@ header p {
 
 .gift-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2.5rem;
 }
 
@@ -404,4 +404,47 @@ h2 {
         width: 95%;
         padding: 1.5rem;
     }
+}
+
+/* Prank Modal Styles */
+.prank-content {
+    text-align: center;
+    max-width: 450px;
+    background: #fff;
+    /* Clean white background */
+}
+
+.prank-title {
+    font-size: 2rem;
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+
+.prank-image {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 480px) {
+    .prank-image {
+        max-width: 100%;
+    }
+}
+
+.prank-text {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.prank-text:last-of-type {
+    margin-bottom: 0;
+    font-weight: 500;
 }
