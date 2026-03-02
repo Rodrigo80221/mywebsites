@@ -346,6 +346,19 @@
     </div>
 
     <script>
+        // Track user visit on load
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('https://n8n.progridai.com.br/webhook/site-action', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    value: 'user-start'
+                })
+            }).catch(error => console.error('Error sending webhook:', error));
+        });
+
         const modal = document.getElementById('paymentModal');
         const prankModal = document.getElementById('prankModal');
         const amountSpan = document.getElementById('modalAmount');
