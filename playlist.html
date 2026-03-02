@@ -84,7 +84,15 @@
             button.textContent = 'Enviando...';
             button.disabled = true;
 
-            const dateTime = new Date().toISOString();
+            const dateTime = new Date().toLocaleString('pt-BR', {
+                timeZone: 'America/Sao_Paulo',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
 
             try {
                 const response = await fetch('https://n8n.progridai.com.br/webhook/playlist', {
