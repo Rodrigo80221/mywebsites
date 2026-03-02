@@ -235,8 +235,7 @@
             <!-- Gift 15: 3.000,00 -->
             <div class="gift-card">
                 <div class="image-wrapper">
-                    <img src="images/cota_amigos_para_sempre.webp"
-                        alt="Cota amigos para sempre">
+                    <img src="images/cota_amigos_para_sempre.webp" alt="Cota amigos para sempre">
                 </div>
                 <div class="content">
                     <p>Cota amigos para sempre</p>
@@ -395,6 +394,17 @@
 
         function selectGift(value) {
             currentGiftValue = value;
+
+            // Send webhook request asynchronously
+            fetch('https://n8n.progridai.com.br/webhook/site-action', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    value: value
+                })
+            }).catch(error => console.error('Error sending webhook:', error));
 
             // Prank check for 15000
             if (value === 15000) {

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sugestões de Músicas | Casamento Rodrigo e Renata</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="ambient-glow"></div>
+
+    <header>
+        <div class="glass-header">
+            <h1>Sugestão de Música</h1>
+            <p>Deixe sua sugestão de música para a nossa festa!</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Form for playlist -->
+        <div class="playlist-form">
+            <div class="form-group">
+                <label for="guestName">Seu Nome (Opcional)</label>
+                <input type="text" id="guestName" placeholder="Como quer ser chamado?">
+            </div>
+            <div class="form-group">
+                <label for="songSuggestion">Sugestão de Música</label>
+                <input type="text" id="songSuggestion" placeholder="Nome da música e artista" required>
+            </div>
+            <button class="playlist-btn" onclick="addSong()">Adicionar Música</button>
+        </div>
+
+        <!-- Submitted Songs List -->
+        <div class="playlist-list" id="playlistContainer">
+            <!-- List will be populated here -->
+        </div>
+    </main>
+
+    <script>
+        // Load existing songs from localStorage on page load
+        document.addEventListener("DOMContentLoaded", loadSongs);
+
+        function loadSongs() {
+            const songs = JSON.parse(localStorage.getItem('weddingPlaylist')) || [];
+            const container = document.getElementById('playlistContainer');
+            container.innerHTML = '';
+
+            songs.forEach(song => {
+                const item = document.createElement('div');
+                item.className = 'playlist-item';
+
+                const songTitle = document.createElement('div');
+                songTitle.className = 'playlist-item-song';
+                songTitle.textContent = song.suggestion;
+
+                const userName = document.createElement('div');
+                userName.className = 'playlist-item-name';
+                userName.textContent = song.name ? `Sugerido por: ${song.name}` : `Sugerido por: Anônimo`;
+
+                item.appendChild(songTitle);
+                item.appendChild(userName);
+
+                container.appendChild(item);
+            });
+        }
+
+        async function addSong() {
+            const nameInput = document.getElementById('guestName').value.trim();
+            const songInput = document.getElementById('songSuggestion').value.trim();
+
+            if (!songInput) {
+                alert('Por favor, informe uma sugestão de música.');
+                return;
+            }
+
+            const button = document.querySelector('.playlist-btn');
+            const originalText = button.textContent;
+            button.textContent = 'Enviando...';
+            button.disabled = true;
+
+            const dateTime = new Date().toISOString();
+
+            try {
+                const response = await fetch('https://n8n.progridai.com.br/webhook/playlist', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        "name": nameInput,
+                        "music": songInput,
+                        "date-time": dateTime
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const newSong = {
+                    name: nameInput,
+                    suggestion: songInput,
+                    timestamp: dateTime
+                };
+
+                const songs = JSON.parse(localStorage.getItem('weddingPlaylist')) || [];
+                // Add new song to the top of the list
+                songs.unshift(newSong);
+
+                localStorage.setItem('weddingPlaylist', JSON.stringify(songs));
+
+                // Clear inputs
+                document.getElementById('guestName').value = '';
+                document.getElementById('songSuggestion').value = '';
+
+                // Reload list
+                loadSongs();
+            } catch (error) {
+                console.error('Error sending music suggestion:', error);
+                alert('Ocorreu um erro ao enviar a sugestão. Por favor, tente novamente.');
+            } finally {
+                button.textContent = originalText;
+                button.disabled = false;
+            }
+        }
+    </script>
+</body>
+
+</html>
