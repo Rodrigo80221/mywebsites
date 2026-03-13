@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obrigado! - Emily English Friend</title>
+    <meta name="description" content="Agradecimento pela compra.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="thank-you-page">
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo" style="text-align: center;">Emily English Friend</h1>
+        </div>
+    </header>
+
+    <!-- Thank You Section -->
+    <section class="hero thank-you-hero">
+        <div class="container">
+            <div class="thank-you-content">
+                <div class="icon-wrapper large-icon">
+                    <i data-feather="check-circle"></i>
+                </div>
+                <h2>Pagamento Confirmado!</h2>
+                <p>Obrigado por confiar no Emily English Friend. Estamos muito felizes em ter você no próximo nível da fluência!</p>
+                
+                <div class="alert-box">
+                    <i data-feather="clock"></i>
+                    <p><strong>Aviso Importante:</strong> O seu novo plano poderá levar <strong>até 24 horas</strong> para ser processado e ativado no sistema.</p>
+                </div>
+                
+                <a href="#" id="btn-ok" class="btn btn-primary">Ok, Entendi</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Emily English Friend. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Inicializar ícones
+        feather.replace();
+
+        // Função para envio de LOGS para a API n8n
+        function sendLog(mensagem) {
+            fetch('https://n8n.progridai.com.br/webhook/emily-logs', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ texto: mensagem })
+            }).catch(err => console.error("Erro ao enviar log:", err));
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Log de acesso à página de sucesso
+            sendLog("Usuário visualizou a página de Confirmação de Pagamento (Obrigado)");
+
+            const btnOk = document.getElementById('btn-ok');
+            if (btnOk) {
+                btnOk.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // Envia log de conclusão e tenta fechar a janela
+                    sendLog("Usuário clicou em 'Ok, Entendi' na página de confirmação");
+                    setTimeout(() => {
+                        window.close();
+                    }, 500); // pequeno delay para garantir o envio do log
+                });
+            }
+        });
+    </script>
+</body>
+</html>
