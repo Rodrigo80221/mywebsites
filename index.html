@@ -294,9 +294,29 @@
         <div class="modal-content glass-card">
             <button class="close-modal" onclick="closeModal()">&times;</button>
             <h2 class="modal-title">Complete seu Presente</h2>
+            <p id="modalGiftName" style="text-align: center; font-size: 1.1rem; color: var(--text-primary); margin-bottom: 0.5rem; font-weight: 500;"></p>
             <p class="modal-amount">Valor: <span id="modalAmount">R$ 0,00</span></p>
 
             <div class="payment-options">
+                <!-- Message Form -->
+                <div class="payment-method">
+                    <h3>Deixe uma mensagem aos noivos</h3>
+                    <p class="method-desc">Opcional, mas feito com carinho.</p>
+                    <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 0.5rem;">
+                        <input type="text" id="guestName" placeholder="Seu nome" style="padding: 1rem; border-radius: 12px; border: 1px solid rgba(196, 139, 111, 0.3); background: rgba(255, 255, 255, 0.7); font-family: 'Montserrat', sans-serif; font-size: 1rem; color: var(--text-primary); outline: none; transition: border-color 0.3s;" onfocus="this.style.borderColor='var(--accent-color)'" onblur="this.style.borderColor='rgba(196, 139, 111, 0.3)'">
+                        <textarea id="guestMessage" placeholder="Escreva sua mensagem..." rows="2" style="padding: 1rem; border-radius: 12px; border: 1px solid rgba(196, 139, 111, 0.3); background: rgba(255, 255, 255, 0.7); font-family: 'Montserrat', sans-serif; font-size: 1rem; color: var(--text-primary); outline: none; resize: vertical; transition: border-color 0.3s;" onfocus="this.style.borderColor='var(--accent-color)'" onblur="this.style.borderColor='rgba(196, 139, 111, 0.3)'"></textarea>
+                        <button onclick="sendMessage()" class="action-btn" style="background: var(--accent-color); color: #fff;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path>
+                            </svg>
+                            Enviar Mensagem
+                        </button>
+                        <p id="messageStatus" style="font-size: 0.85rem; text-align: center; color: var(--accent-color); font-weight: 600; display: none;"></p>
+                    </div>
+                </div>
+
+                <div class="divider">Pagamento</div>
+
                 <!-- Pix Option -->
                 <div class="payment-method">
                     <h3>Pagamento via Pix</h3>
@@ -362,7 +382,28 @@
         const modal = document.getElementById('paymentModal');
         const prankModal = document.getElementById('prankModal');
         const amountSpan = document.getElementById('modalAmount');
+        const giftNameSpan = document.getElementById('modalGiftName');
         let currentGiftValue = 0;
+
+        const giftNames = {
+            50: 'Só pra não dizerem que não dei nada',
+            100: 'Kit ressaca para os noivos',
+            150: 'Garanta o jantar do noivo no 1º dia de casado',
+            200: 'Vaquinha para ajudar os noivos quebrados',
+            250: 'Coral pra cantar “Aleluia” na entrada do noivo',
+            300: 'Curso de culinária básica para a noiva',
+            350: 'Cota para perguntar quando o casal terá filho',
+            400: 'Taxa pra noiva não jogar o buquê na sua namorada',
+            450: 'Travesseiro anti-ronco para o noivo (A paz da noiva não tem preço)',
+            500: '1 ano de Netflix',
+            750: 'Massagem relaxante para o noivo depois de ver a conta do casamento',
+            1000: 'Aluguel de um bebê para treinamento',
+            1500: 'Lava-louça para manter o casamento feliz',
+            2000: 'Deus te iluminou e você resolveu ajudar na nossa lua de mel',
+            2500: 'Cota amigos para sempre',
+            3000: 'Oportunidade de ser nosso parente favorito',
+            15000: 'Poder ir junto com os noivos para a lua de mel'
+        };
 
         const paymentLinks = {
             50: 'https://mpago.la/2FojFHd',
@@ -427,6 +468,7 @@
 
             const formattedValue = value.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
             amountSpan.textContent = `R$ ${formattedValue}`;
+            giftNameSpan.textContent = giftNames[value] || '';
 
             // Set Pix Code
             const pixCodeElement = document.getElementById('pixCode');
@@ -478,6 +520,55 @@
             } else {
                 alert('Link de pagamento indísponível para este valor no momento.');
             }
+        }
+
+        function sendMessage() {
+            const nameInput = document.getElementById('guestName');
+            const messageInput = document.getElementById('guestMessage');
+            const statusText = document.getElementById('messageStatus');
+
+            const guest_name = nameInput.value.trim();
+            const message = messageInput.value.trim();
+
+            if (!guest_name || !message) {
+                statusText.style.display = 'block';
+                statusText.textContent = 'Por favor, preencha seu nome e mensagem.';
+                statusText.style.color = '#e74c3c';
+                return;
+            }
+
+            statusText.style.display = 'block';
+            statusText.textContent = 'Enviando...';
+            statusText.style.color = 'var(--text-secondary)';
+
+            fetch('https://n8n.progridai.com.br/webhook/mensage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    guest_name: guest_name,
+                    message: message
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    statusText.textContent = 'Mensagem enviada com sucesso! ❤️';
+                    statusText.style.color = '#2ecc71';
+                    nameInput.value = '';
+                    messageInput.value = '';
+                    setTimeout(() => {
+                        statusText.style.display = 'none';
+                    }, 3000);
+                } else {
+                    throw new Error('Falha no envio');
+                }
+            })
+            .catch(error => {
+                statusText.textContent = 'Erro ao enviar. Tente novamente.';
+                statusText.style.color = '#e74c3c';
+                console.error('Error sending message:', error);
+            });
         }
     </script>
 </body>
