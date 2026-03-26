@@ -211,6 +211,8 @@ h2 {
     max-width: 500px;
     max-height: 90vh;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
     padding: 2.5rem;
     border-radius: 24px;
     border: 1px solid var(--glass-border);
@@ -402,9 +404,19 @@ h2 {
         border-radius: 20px;
     }
 
+    .modal-overlay {
+        align-items: flex-end;
+    }
+
     .modal-content {
-        width: 95%;
+        width: 100%;
+        max-height: 90vh;
         padding: 1.5rem;
+        padding-bottom: 2rem;
+        border-radius: 24px 24px 0 0;
+        transform: translateY(100%);
+        border: none;
+        border-bottom: none;
     }
 }
 
