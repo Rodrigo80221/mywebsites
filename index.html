@@ -449,6 +449,18 @@
             15000: 'Poder ir junto com os noivos para a lua de mel'
         };
 
+        // IDs de preferência diretos do Mercado Pago.
+        // Quando disponível, usamos a URL direta do checkout sem passar pelo mpago.la,
+        // evitando o problema de abertura de app no iOS.
+        const preferenceIds = {
+            50: '99147288-dc935546-f814-4cd8-a8c2-1d0dd3dbab54',
+            // Adicione os demais conforme obtiver no painel do Mercado Pago:
+            // 100: '99147288-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
+            // 150: '99147288-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
+            // ...
+        };
+
+        // Fallback: links mpago.la para valores sem preferenceId ainda
         const paymentLinks = {
             50: 'https://mpago.la/2FojFHd',
             100: 'https://mpago.la/1zRVJRD',
@@ -592,14 +604,22 @@
         }
 
         function payWithCard() {
+            const prefId = preferenceIds[currentGiftValue];
+
+            if (prefId) {
+                // URL direta do checkout MP — sem passar pelo mpago.la,
+                // evita completamente o problema de app no iOS.
+                const directUrl = `https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=${prefId}`;
+                window.open(directUrl, '_blank');
+                return;
+            }
+
+            // Fallback para valores sem preferenceId ainda (mpago.la)
             const link = paymentLinks[currentGiftValue];
             if (!link) {
                 alert('Link de pagamento indísponível para este valor no momento.');
                 return;
             }
-            // No iOS, window.open() pode acionar Universal Links agressivamente,
-            // causando erro quando o app do Mercado Pago não está instalado.
-            // Usar window.location.href deixa o Safari tratar o fallback para web corretamente.
             const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
             if (isIOS) {
                 window.location.href = link;
