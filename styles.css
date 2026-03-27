@@ -580,3 +580,60 @@ h2 {
         transform: translateY(0);
     }
 }
+
+/* Details / Summary Styles for Payment Methods */
+details.payment-method {
+    transition: all 0.3s ease;
+    scroll-margin-bottom: 3rem; /* preserves a foot margin when scrolling */
+}
+
+details.payment-method summary {
+    list-style: none; /* Remove default arrow */
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+details.payment-method summary::-webkit-details-marker {
+    display: none;
+}
+
+details.payment-method summary .summary-content {
+    display: flex;
+    flex-direction: column;
+}
+
+details.payment-method summary .method-desc {
+    margin-bottom: 0;
+}
+
+details.payment-method .dropdown-icon {
+    transition: transform 0.3s ease;
+    color: var(--text-secondary);
+}
+
+details.payment-method[open] .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+details.payment-method[open] summary {
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(196, 139, 111, 0.2);
+    padding-bottom: 1rem;
+}
+
+details.payment-method:not([open]) .pix-container,
+details.payment-method:not([open]) .payment-content {
+    display: none;
+}
+
+details.payment-method .payment-content,
+details.payment-method .pix-container {
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* Ensure foot margin visually beneath the expandable menus */
+.payment-options {
+    padding-bottom: 5rem;
+}
