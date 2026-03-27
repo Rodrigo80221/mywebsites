@@ -208,13 +208,13 @@ h2 {
     background: #fff;
     /* Solid background for readability */
     width: 90%;
-    max-width: 500px;
+    max-width: 460px;
     max-height: 90vh;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
-    padding: 2.5rem;
-    border-radius: 24px;
+    padding: 1.8rem;
+    border-radius: 20px;
     border: 1px solid var(--glass-border);
     position: relative;
     transform: translateY(20px);
@@ -228,12 +228,12 @@ h2 {
 
 .close-modal {
     position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
+    top: 1rem;
+    right: 1rem;
     background: transparent;
     border: none;
     color: var(--text-secondary);
-    font-size: 2rem;
+    font-size: 1.6rem;
     cursor: pointer;
     line-height: 1;
     transition: color 0.2s;
@@ -253,31 +253,31 @@ h2 {
 
 .modal-amount {
     text-align: center;
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     color: var(--accent-color);
     font-weight: 700;
-    margin-bottom: 2rem;
+    margin-bottom: 1.2rem;
 }
 
 .payment-method {
     background: var(--bg-page);
-    padding: 1.5rem;
-    border-radius: 16px;
+    padding: 1rem;
+    border-radius: 12px;
     border: 1px solid rgba(196, 139, 111, 0.2);
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .payment-method h3 {
-    font-size: 1.1rem;
-    margin-bottom: 0.25rem;
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
     color: var(--text-primary);
     font-weight: 600;
 }
 
 .method-desc {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .pix-container {
@@ -308,13 +308,13 @@ h2 {
 
 .action-btn {
     width: 100%;
-    padding: 0.9rem;
-    border-radius: 10px;
+    padding: 0.7rem;
+    border-radius: 9px;
     border: none;
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.9rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -344,9 +344,9 @@ h2 {
 
 .divider {
     text-align: center;
-    margin: 1rem 0;
+    margin: 0.6rem 0;
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     position: relative;
     opacity: 0.6;
 }
@@ -618,9 +618,9 @@ details.payment-method[open] .dropdown-icon {
 }
 
 details.payment-method[open] summary {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     border-bottom: 1px solid rgba(196, 139, 111, 0.2);
-    padding-bottom: 1rem;
+    padding-bottom: 0.6rem;
 }
 
 details.payment-method:not([open]) .pix-container,
@@ -635,5 +635,5 @@ details.payment-method .pix-container {
 
 /* Ensure foot margin visually beneath the expandable menus */
 .payment-options {
-    padding-bottom: 5rem;
+    padding-bottom: 3rem;
 }
