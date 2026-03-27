@@ -449,18 +449,13 @@
             15000: 'Poder ir junto com os noivos para a lua de mel'
         };
 
-        // IDs de preferência diretos do Mercado Pago.
-        // Quando disponível, usamos a URL direta do checkout sem passar pelo mpago.la,
-        // evitando o problema de abertura de app no iOS.
-        const preferenceIds = {
-            50: '99147288-dc935546-f814-4cd8-a8c2-1d0dd3dbab54',
-            // Adicione os demais conforme obtiver no painel do Mercado Pago:
-            // 100: '99147288-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
-            // 150: '99147288-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
-            // ...
+        // Links diretos do checkout (sem redirecionamento via mpago.la).
+        // Se este link expirar, remova a entrada e o sistema voltará a usar o mpago.la.
+        const directLinks = {
+            50: 'https://www.mercadopago.com.br/checkout/v1/payment/redirect/1623710c-b221-4284-974e-dfec2f18c68c/payment-option-form/?preference-id=99147288-dc935546-f814-4cd8-a8c2-1d0dd3dbab54&router-request-id=f4d486bc-104c-46e3-88f1-09f00916630e&journey-id=68282f47d72d8875f21d7a6868ee7b9e&navigate-to-app=false&p=9e7b2ec9af5be87d5be61aa991f7e923',
         };
 
-        // Fallback: links mpago.la para valores sem preferenceId ainda
+        // Fallback: links mpago.la para valores sem link direto ainda
         const paymentLinks = {
             50: 'https://mpago.la/2FojFHd',
             100: 'https://mpago.la/1zRVJRD',
@@ -604,17 +599,14 @@
         }
 
         function payWithCard() {
-            const prefId = preferenceIds[currentGiftValue];
-
-            if (prefId) {
-                // URL direta do checkout MP — sem passar pelo mpago.la,
-                // evita completamente o problema de app no iOS.
-                const directUrl = `https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=${prefId}`;
-                window.open(directUrl, '_blank');
+            // Tenta usar o link direto primeiro (sem mpago.la, sem tentativa de abrir app)
+            const direct = directLinks[currentGiftValue];
+            if (direct) {
+                window.open(direct, '_blank');
                 return;
             }
 
-            // Fallback para valores sem preferenceId ainda (mpago.la)
+            // Fallback: links mpago.la
             const link = paymentLinks[currentGiftValue];
             if (!link) {
                 alert('Link de pagamento indísponível para este valor no momento.');
